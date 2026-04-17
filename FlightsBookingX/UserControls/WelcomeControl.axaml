@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:LoadingIndicators.Avalonia;assembly=LoadingIndicators.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
+             x:Class="FlightsBookingX.UserControls.WelcomeControl">
+    <Grid ColumnDefinitions="5*, 4*">
+        <Border Grid.Column="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#1E3A8A" Offset="0.0" />
+                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Margin="40">
+                
+                <TextBlock Text="✈️" FontSize="72" HorizontalAlignment="Center" Margin="0,0,0,20" />
+                <TextBlock Text="FlightsBooking" Classes="BrandTitle" HorizontalAlignment="Center" />
+                <TextBlock
+                    Text="Ваше идеальное путешествие начинается здесь. Находите лучшие билеты по самым выгодным ценам."
+                    FontSize="18"
+                    Foreground="{DynamicResource BrandLight}"
+                    TextWrapping="Wrap"
+                    TextAlignment="Center"
+                    MaxWidth="490"
+                    HorizontalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <ContentPresenter Grid.Column="1" Name="ContentPresenter" />
+    </Grid>
+</UserControl>

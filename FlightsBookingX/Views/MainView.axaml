@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:FlightsBookingX.ViewModels"
+             xmlns:avalonia="clr-namespace:LoadingIndicators.Avalonia;assembly=LoadingIndicators.Avalonia"
+             xmlns:views="clr-namespace:FlightsBookingX.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FlightsBookingX.Views.MainView"
+             x:DataType="views:MainView">
+    <Grid>
+        <TransitioningContentControl Name="MainPresenter">
+            <TransitioningContentControl.PageTransition >
+                <CrossFade Duration="0:00:00.250"/>
+            </TransitioningContentControl.PageTransition>
+        </TransitioningContentControl>
+                
+        <StackPanel  Background="Black" Opacity="0.5" IsVisible="{Binding !IsEnabled}"/>
+        <avalonia:LoadingIndicator Grid.Column="0" Mode="Arcs" SpeedRatio="1.2" IsVisible="{Binding !IsEnabled}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Grid>
+</UserControl>

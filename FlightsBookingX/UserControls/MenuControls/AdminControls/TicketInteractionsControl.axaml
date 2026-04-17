@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="using:FlightsBookingLib.Models"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:DataType="models:Ticket"
+             x:Class="FlightsBookingX.UserControls.MenuControls.AdminControls.TicketInteractionsControl">
+    <UserControl.Styles>
+        <Style Selector="ComboBox">
+            <Setter Property="Height" Value="60"/>
+        </Style>
+        <Style Selector="ComboBox /template/ Border#Background">
+            <Setter Property="Height" Value="46"/>
+        </Style>
+        <Style Selector="ComboBox /template/ DataValidationErrors /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto, *, Auto" Margin="30">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,0,0,25">
+            <Button Classes="Outline" Width="44" Height="44" Padding="0" Click="BackButton_OnClick">
+                <PathIcon Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                          Width="20" Height="20" Foreground="{DynamicResource TextPrimary}" />
+            </Button>
+            <TextBlock Text="Управление билетом" FontSize="28" FontWeight="Bold"
+                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <Border Background="{DynamicResource BgCard}" CornerRadius="12" Padding="40" BoxShadow="0 4 10 0 #10000000">
+                <StackPanel Spacing="25">
+                    <TextBlock Text="Параметры билета" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource BrandDark}" />
+
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="20" ColumnSpacing="30">
+                        
+                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Рейс" Foreground="{DynamicResource TextSecondary}" FontSize="13" FontWeight="SemiBold" />
+                            <ComboBox Name="FlightsComboBox" HorizontalAlignment="Stretch" SelectedItem="{Binding Flight}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Flight">
+                                        <TextBlock Text="{Binding }" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Пассажир" Foreground="{DynamicResource TextSecondary}" FontSize="13" FontWeight="SemiBold" />
+                            <ComboBox Name="UsersComboBox" HorizontalAlignment="Stretch" SelectedItem="{Binding User}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:User">
+                                        <TextBlock Text="{Binding }" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Номер места" Foreground="{DynamicResource TextSecondary}" FontSize="13" FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding SeatNumber}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Дата бронирования" Foreground="{DynamicResource TextSecondary}" FontSize="13" FontWeight="SemiBold" />
+                            <CalendarDatePicker SelectedDate="{Binding BookingDate}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2">
+            <Separator Height="1" Background="{DynamicResource BgInput}" Margin="0,20" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15">
+                <Button Content="Отмена" Classes="Outline" Width="120" Height="45" Click="BackButton_OnClick" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                <Button Name="SaveButton" Content="Сохранить изменения" Classes="Primary" Height="45" Click="SaveButton_OnClick" IsVisible="False" Padding="20 0" />
+                <Button Name="AddButton" Content="Создать билет" Classes="Primary" Height="45" Click="AddButton_OnClick" IsVisible="False" Padding="20 0" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

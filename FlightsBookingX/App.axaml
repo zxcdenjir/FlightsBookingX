@@ -1,0 +1,297 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FlightsBookingX"
+             x:Class="FlightsBookingX.App"
+             RequestedThemeVariant="Light">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://LoadingIndicators.Avalonia/LoadingIndicators.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+        <SolidColorBrush x:Key="BgPage" Color="#F9FAFB" />
+        <SolidColorBrush x:Key="BgCard" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="BgInput" Color="#F3F4F6" />
+
+        <SolidColorBrush x:Key="PrimaryColor" Color="#3B82F6" />
+        <SolidColorBrush x:Key="PrimaryHover" Color="#2563EB" />
+        <SolidColorBrush x:Key="BrandDark" Color="#1E3A8A" />
+        <SolidColorBrush x:Key="BrandLight" Color="#BFDBFE" />
+
+        <SolidColorBrush x:Key="TextPrimary" Color="#111827" />
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B7280" />
+        <SolidColorBrush x:Key="TextMuted" Color="#374151" />
+        <SolidColorBrush x:Key="TextOnPrimary" Color="#FFFFFF" />
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <Style Selector="Window">
+            <Setter Property="WindowStartupLocation" Value="CenterOwner" />
+        </Style>
+
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="36" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+
+        <Style Selector="TextBlock.subtitle">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="Margin" Value="0,0,0,40" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+        </Style>
+
+        <Style Selector="TextBox.Default">
+            <Setter Property="Background" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15,12" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="LineHeight" Value="19" />
+            <Setter Property="Height" Value="60" />
+        </Style>
+        <Style Selector="TextBox.Default:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="TextBox.Default /template/ Border">
+            <Setter Property="Height" Value="46" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="TextBox.Default /template/ TextBlock#PART_Watermark">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15,0" /> <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="46" /> <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style Selector="ComboBox:pointerover /template/ Border#ContentPresenterBorder">
+            <Setter Property="Background" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderBrush" Value="#C0C0C0" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="ComboBox:focus /template/ Border#LayerOnBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <Style Selector="ComboBox:pointerover /template/ Path#DropDownGlyph">
+            <Setter Property="Fill" Value="{DynamicResource TextSecondary}" />
+        </Style>
+
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Padding" Value="15,10" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+
+        <Style Selector="AutoCompleteBox">
+            <Setter Property="Background" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15,12" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="60" />
+        </Style>
+        <Style Selector="AutoCompleteBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="AutoCompleteBox /template/ Border">
+            <Setter Property="Height" Value="46" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="AutoCompleteBox /template/ TextBlock#PART_Watermark">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="AutoCompleteBox /template/ TextBox#PART_TextBox">
+            <Setter Property="LineHeight" Value="19" />
+        </Style>
+        <Style Selector="AutoCompleteBox /template/ Border#PART_SuggestionsContainer">
+            <Setter Property="Height" Value="NaN" />
+        </Style>
+
+        <Style Selector="CalendarDatePicker">
+            <Setter Property="Background" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="15,12 10 25" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="60" />
+        </Style>
+        <Style Selector="CalendarDatePicker /template/ TextBox#PART_TextBox">
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+        <Style Selector="CalendarDatePicker /template/ Border">
+            <Setter Property="Height" Value="46" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="CalendarDatePicker:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="CalendarDatePicker /template/ Button#PART_Button">
+            <Setter Property="Margin" Value="0 0 15 16" />
+        </Style>
+
+        <Style Selector="DataValidationErrors /template/ ContentControl#InlineDataValidationContentControl">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="DataValidationErrors /template/ ContentControl#InlineDataValidationContentControl TextBlock">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="LineHeight" Value="Nan" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="Button.Primary">
+            <Setter Property="Background" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextOnPrimary}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="0,14" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource PrimaryHover}" />
+        </Style>
+
+        <Style Selector="Button.Link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        </Style>
+        <Style Selector="Button.Link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+        <Style Selector="Button.Link:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+
+        <Style Selector="Button.Outline">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BgInput}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="Button.Outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#10000000" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+        <Style Selector="Button.Outline:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#20000000" />
+        </Style>
+        <Style Selector="Button.Outline PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="Width" Value="18" />
+            <Setter Property="Height" Value="18" />
+        </Style>
+
+        <Style Selector="Button.Outline:pointerover PathIcon">
+            <Setter Property="Foreground" Value="#EF4444" />
+        </Style>
+
+        <Style Selector="ToggleButton.Link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="ToggleButton.Link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+
+        <Style Selector="ToggleButton.Link:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+
+        <Style Selector="ToggleButton.Link:checked:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}" />
+        </Style>
+        
+        <Style Selector="ItemsControl:singleitem /template/ ItemsPresenter#PART_ItemsPresenter"></Style>
+
+        <Style Selector="ToggleButton.Link:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+        </Style>
+
+        <Style Selector="TextBlock.BrandTitle">
+            <Setter Property="FontSize" Value="54" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource TextOnPrimary}" />
+            <Setter Property="Margin" Value="0,0,0,15" />
+        </Style>
+
+        <Style Selector="CheckBox">
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style Selector="NotificationCard TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style Selector="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="10" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style Selector="Border.Item">
+            <Setter Property="Background" Value="{DynamicResource BgCard}" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="BoxShadow" Value="0 2 5 0 #05000000" />
+        </Style>
+
+        <!--TODO: Сделать валидатор для комбобокса-->
+
+        <Style Selector="ContentControl#InlineDataValidationContentControl">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+    </Application.Styles>
+</Application>

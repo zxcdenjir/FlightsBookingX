@@ -1,0 +1,1001 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:FlightsBookingLib.Models;assembly=FlightsBookingLib"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
+             x:Class="FlightsBookingX.UserControls.MenuControls.AdminControls.AdminControl">
+    <UserControl.Styles>
+        <Style Selector="TabControl /template/ ItemsPresenter#PART_ItemsPresenter">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto, *">
+        <Border Grid.Row="0" Background="{DynamicResource BgCard}" Height="70" Padding="30,0"
+                BoxShadow="0 4 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                    <TextBlock Text="✈️" FontSize="24" VerticalAlignment="Center" />
+                    <TextBlock Text="FlightsBooking" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"
+                               Foreground="{DynamicResource BrandDark}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                    <Button Classes="Link" IsVisible="True" Margin="0,0,10,0" Click="BackButton_OnClick">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Path
+                                Data="M16.63,105.75c0.01-4.03,2.3-7.97,6.03-12.38L1.09,79.73c-1.36-0.59-1.33-1.42-0.54-2.4l4.57-3.9
+		                              c0.83-0.51,1.71-0.73,2.66-0.47l26.62,4.5l22.18-24.02L4.8,18.41c-1.31-0.77-1.42-1.64-0.07-2.65l7.47-5.96l67.5,18.97L99.64,7.45
+		                              c6.69-5.79,13.19-8.38,18.18-7.15c2.75,0.68,3.72,1.5,4.57,4.08c1.65,5.06-0.91,11.86-6.96,18.86L94.11,43.18l18.97,67.5
+		                              l-5.96,7.47c-1.01,1.34-1.88,1.23-2.65-0.07L69.43,66.31L45.41,88.48l4.5,26.62c0.26,0.94,0.05,1.82-0.47,2.66l-3.9,4.57
+		                              c-0.97,0.79-1.81,0.82-2.4-0.54l-13.64-21.57c-4.43,3.74-8.37,6.03-12.42,6.03C16.71,106.24,16.63,106.11,16.63,105.75
+		                              L16.63,105.75z"
+                                Fill="Black"
+                                Height="18"
+                                Width="18"
+                                Stretch="Uniform"
+                                VerticalAlignment="Center" />
+                            <TextBlock Text="Назад к билетам" VerticalAlignment="Center" FontWeight="Bold"
+                                       Foreground="{DynamicResource PrimaryColor}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Classes="Link">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon
+                                Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+                                Width="18" />
+                            <TextBlock Name="PersonalCabinetBlock" Text="Личный кабинет" VerticalAlignment="Center"
+                                       FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Width="1" Height="24" Fill="{DynamicResource BgInput}" Margin="5,0" />
+                    <Button Classes="Link" Foreground="#EF4444" Click="LogoutButton_OnClick">
+                        <TextBlock Text="Выйти" FontWeight="SemiBold" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <TabControl Grid.Row="1" TabStripPlacement="Left">
+            <TabItem Header="Пользователи">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalUsersBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Name="TotalAdminsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Name="TotalClientsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Click="AddUserButton_OnClick"
+                                Classes="Primary"
+                                Content="Добавить пользователя"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="UsersControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:User">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50"
+                                                        Height="50"
+                                                        CornerRadius="25"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <PathIcon
+                                                        Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+                                                        Foreground="{DynamicResource PrimaryColor}"
+                                                        Width="24" Height="24" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center"
+                                                            Spacing="5">
+                                                    <TextBlock FontWeight="Bold" FontSize="18">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                                <Binding Path="SecondName" />
+                                                                <Binding Path="FirstName" />
+                                                                <Binding Path="MiddleName" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+
+                                                    <StackPanel Orientation="Horizontal" Spacing="15">
+                                                        <TextBlock Text="{Binding PhoneNumber}"
+                                                                   FontSize="13"
+                                                                   Foreground="{DynamicResource TextSecondary}" />
+                                                        <TextBlock Text="•"
+                                                                   Foreground="{DynamicResource TextSecondary}" />
+                                                        <TextBlock Text="{Binding Email}"
+                                                                   FontSize="13"
+                                                                   Foreground="{DynamicResource PrimaryColor}"
+                                                                   FontWeight="Medium" />
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,20,0" Spacing="2">
+                                                    <TextBlock Text="{Binding PassportData}"
+                                                               FontSize="12"
+                                                               HorizontalAlignment="Right"
+                                                               Foreground="{DynamicResource TextSecondary}" />
+                                                    <TextBlock
+                                                        Text="{Binding DateOfBirth, StringFormat='{}{0:dd.MM.yyyy}'}"
+                                                        FontSize="12"
+                                                        HorizontalAlignment="Right"
+                                                        Foreground="{DynamicResource TextSecondary}" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8"
+                                                            VerticalAlignment="Center">
+                                                    <Button
+                                                        Click="EditUserButton_OnClick"
+                                                        Classes="Outline"
+                                                        Width="38" Height="38"
+                                                        Padding="0"
+                                                        ToolTip.Tip="Редактировать">
+                                                        <PathIcon
+                                                            Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                            Width="16" Height="16" />
+                                                    </Button>
+
+                                                    <Button
+                                                        Click="DeleteUserButton_OnClick"
+                                                        Classes="Outline"
+                                                        Width="38" Height="38"
+                                                        Padding="0"
+                                                        ToolTip.Tip="Удалить">
+                                                        <PathIcon
+                                                            Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                            Width="16" Height="16" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Билеты">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalTicketsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить билет"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10"
+                                Click="AddTicketButton_OnClick" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="TicketsControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Ticket">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20 15"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <StackPanel Grid.Column="0" VerticalAlignment="Center"
+                                                            Margin="0,0,15,0">
+                                                    <StackPanel Orientation="Vertical" Spacing="5">
+                                                        <Border Grid.Column="0"
+                                                                Width="36" Height="36"
+                                                                CornerRadius="8"
+                                                                Background="{DynamicResource BgInput}">
+                                                            <PathIcon
+                                                                Data="M21,10V14C20.45,14 20,14.45 20,15C20,15.55 20.45,16 21,16V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V16C3.55,16 4,15.55 4,15C4,14.45 3.55,14 3,14V10A2,2 0 0,1 5,8H19A2,2 0 0,1 21,10M13,10H11V12H13V10M13,14H11V16H13V14M17,10H15V12H17V10M17,14H15V16H17V14M9,10H7V12H9V10M9,14H7V16H9V14Z"
+                                                                Width="16" Height="16"
+                                                                Foreground="{DynamicResource PrimaryColor}" />
+                                                        </Border>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding Flight.FlightNumber}"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="Bold"
+                                                                   FontSize="13"
+                                                                   Foreground="{DynamicResource PrimaryColor}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="3">
+                                                    <TextBlock FontWeight="Bold" FontSize="16">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                                <Binding Path="User.SecondName" />
+                                                                <Binding Path="User.FirstName" />
+                                                                <Binding Path="User.MiddleName" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+
+                                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                                        <TextBlock Text="{Binding Flight.FromAirport.Code}"
+                                                                   FontWeight="SemiBold" FontSize="13" />
+                                                        <PathIcon
+                                                            Data="M14,16.94V12.94H5.08L5.05,10.93H14V6.94L19,11.94L14,16.94Z"
+                                                            Width="10" Height="10" VerticalAlignment="Center" />
+                                                        <TextBlock Text="{Binding Flight.ToAirport.Code}"
+                                                                   FontWeight="SemiBold" FontSize="13" />
+                                                        <TextBlock Text="|" Foreground="{DynamicResource BgInput}"
+                                                                   Margin="2,0" />
+                                                        <TextBlock
+                                                            Text="{Binding Flight.DepartureTime, StringFormat='{}{0:dd MMM, HH:mm}'}"
+                                                            FontSize="12"
+                                                            Foreground="{DynamicResource TextSecondary}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,20,0">
+                                                    <TextBlock Text="МЕСТО" FontSize="10"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Text="{Binding SeatNumber}" FontSize="20"
+                                                               FontWeight="Heavy" HorizontalAlignment="Right"
+                                                               Foreground="{DynamicResource BrandDark}" />
+                                                    <TextBlock
+                                                        Text="{Binding BookingDate, StringFormat='{}Бронь: {0:dd.MM.yy}'}"
+                                                        FontSize="10"
+                                                        Foreground="{DynamicResource TextSecondary}"
+                                                        HorizontalAlignment="Right" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8"
+                                                            VerticalAlignment="Center">
+                                                    <Button Click="EditTicketButton_OnClick"
+                                                            Classes="Outline"
+                                                            Width="38" Height="38"
+                                                            Padding="0"
+                                                            ToolTip.Tip="Редактировать билет"
+                                                            Tag="{Binding}">
+                                                        <PathIcon
+                                                            Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                            Width="16" Height="16" />
+                                                    </Button>
+
+                                                    <Button Click="DeleteTicketButton_OnClick"
+                                                            Classes="Outline"
+                                                            Width="38" Height="38"
+                                                            Padding="0"
+                                                            Foreground="#EF4444"
+                                                            ToolTip.Tip="Аннулировать билет"
+                                                            Tag="{Binding}">
+                                                        <PathIcon
+                                                            Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                            Width="16" Height="16" />
+                                                    </Button>
+                                                </StackPanel>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Роли" Margin="0 0 0 20">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalRolesBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить роль"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10"
+                                Click="AddRoleButton_OnClick" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="RolesControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:UserRole">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20, 20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50"
+                                                        Height="50"
+                                                        CornerRadius="8"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <PathIcon
+                                                        Data="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.95V19.93C8.91,18.85 6.44,16.14 5.4,12.83C7.39,11.88 9.57,11.33 11.88,11.23L12,11.95M18.6,12.83C17.56,16.14 15.09,18.85 12,19.93V11.95L12.12,11.23C14.43,11.33 16.61,11.88 18.6,12.83Z"
+                                                        Foreground="{DynamicResource PrimaryColor}"
+                                                        Width="25" Height="25" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontWeight="Bold"
+                                                               FontSize="16" />
+                                                    <TextBlock Text="{Binding Id, StringFormat='{}ID роли: {0}'}"
+                                                               FontSize="12"
+                                                               Foreground="{DynamicResource TextSecondary}" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8"
+                                                            VerticalAlignment="Center">
+                                                    <Button Classes="Outline"
+                                                            Width="36" Height="36"
+                                                            Padding="0"
+                                                            Click="EditRoleButton_OnClick"
+                                                            ToolTip.Tip="Изменить название роли"
+                                                            Tag="{Binding}">
+                                                        <PathIcon
+                                                            Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                            Width="14" Height="14" />
+                                                    </Button>
+
+                                                    <Button Click="DeleteRoleButton_OnClick"
+                                                            Classes="Outline"
+                                                            Width="36" Height="36"
+                                                            Padding="0"
+                                                            Foreground="#EF4444"
+                                                            ToolTip.Tip="Удалить роль"
+                                                            Tag="{Binding}">
+                                                        <PathIcon
+                                                            Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                            Width="14" Height="14" />
+                                                    </Button>
+                                                </StackPanel>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Полёты">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalFlightsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить полёт"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+
+                        <ScrollViewer>
+                            <ItemsControl Name="FlightsControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Flight">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="*, 1.5*, *, Auto">
+
+                                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                    <TextBlock
+                                                        Text="{Binding DepartureTime, StringFormat='{}{0:HH:mm}'}"
+                                                        FontSize="24" FontWeight="Bold" />
+                                                    <TextBlock Foreground="{DynamicResource TextSecondary}"
+                                                               FontSize="13">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                                <Binding Path="FromAirport.Code" />
+                                                                <Binding Path="FromAirport.City.Name" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    <TextBlock
+                                                        Text="{Binding DepartureTime, StringFormat='{}{0:dd MMMM, ddd}'}"
+                                                        FontSize="12" Foreground="{DynamicResource TextSecondary}" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center"
+                                                            HorizontalAlignment="Center">
+                                                    <TextBlock
+                                                        Text="{Binding OnTheWay, StringFormat='{}{0:h\\ч\\ m\\м} в пути'}"
+                                                        FontSize="12" Foreground="{DynamicResource TextSecondary}"
+                                                        HorizontalAlignment="Center" />
+
+                                                    <Grid ColumnDefinitions="Auto, *, Auto" Width="160" Margin="0,8">
+                                                        <Ellipse Grid.Column="0" Width="6" Height="6"
+                                                                 Fill="{DynamicResource PrimaryColor}"
+                                                                 VerticalAlignment="Center" />
+                                                        <Rectangle Grid.Column="1" Height="1"
+                                                                   Fill="{DynamicResource BgInput}" Margin="8,0"
+                                                                   VerticalAlignment="Center" />
+                                                        <PathIcon Grid.Column="2"
+                                                                  Data="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"
+                                                                  Width="14" Height="14"
+                                                                  Foreground="{DynamicResource PrimaryColor}">
+                                                            <PathIcon.RenderTransform>
+                                                                <RotateTransform Angle="90" />
+                                                            </PathIcon.RenderTransform>
+                                                        </PathIcon>
+                                                    </Grid>
+
+                                                    <TextBlock FontSize="11"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="Рейс: {0} • {1} {2}">
+                                                                <Binding Path="FlightNumber" />
+                                                                <Binding Path="Aircraft.Manufacturer" />
+                                                                <Binding Path="Aircraft.Model" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding ArrivalTime, StringFormat='{}{0:HH:mm}'}"
+                                                               FontSize="24" FontWeight="Bold"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Foreground="{DynamicResource TextSecondary}"
+                                                               FontSize="13" HorizontalAlignment="Right">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                                <Binding Path="ToAirport.Code" />
+                                                                <Binding Path="ToAirport.City.Name" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    <TextBlock
+                                                        Text="{Binding ArrivalTime, StringFormat='{}{0:dd MMMM, ddd}'}"
+                                                        FontSize="12" Foreground="{DynamicResource TextSecondary}"
+                                                        HorizontalAlignment="Right" />
+                                                </StackPanel>
+
+                                                <Border Grid.Column="3" Margin="30,0,0,0" Padding="20,0,0,0"
+                                                        BorderBrush="{DynamicResource BgInput}"
+                                                        BorderThickness="1,0,0,0">
+                                                    <StackPanel VerticalAlignment="Center" Spacing="12">
+                                                        <TextBlock
+                                                            Text="{Binding BasePrice, StringFormat='{}{0:N0} ₽'}"
+                                                            FontSize="20" FontWeight="Bold"
+                                                            Foreground="{DynamicResource BrandDark}"
+                                                            HorizontalAlignment="Center" />
+
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <Button Classes="Outline" Width="38" Height="38"
+                                                                    Padding="0"
+                                                                    Tag="{Binding}">
+                                                                <PathIcon
+                                                                    Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                                    Width="16" Height="16" />
+                                                            </Button>
+                                                            <Button Classes="Outline" Width="38" Height="38"
+                                                                    Padding="0"
+                                                                    Foreground="#EF4444" Tag="{Binding}">
+                                                                <PathIcon
+                                                                    Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                                    Width="16" Height="16" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Самолёты">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalAircraftsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Click="AddAircraftButton_OnClick"
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить самолёт"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="AircraftsControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Aircraft">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50" Height="50"
+                                                        CornerRadius="10"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <PathIcon
+                                                        Data="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"
+                                                        Width="25" Height="25"
+                                                        Foreground="{DynamicResource PrimaryColor}" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Model}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold" />
+                                                    <TextBlock Text="{Binding Manufacturer}"
+                                                               FontSize="13"
+                                                               Foreground="{DynamicResource TextSecondary}" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,25,0">
+                                                    <TextBlock Text="ВМЕСТИМОСТЬ"
+                                                               FontSize="10"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Right" />
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                                Spacing="5">
+                                                        <TextBlock Text="{Binding SeatsCount}"
+                                                                   FontSize="20"
+                                                                   FontWeight="Heavy"
+                                                                   Foreground="{DynamicResource BrandDark}" />
+                                                        <PathIcon
+                                                            Data="m571.61 226.89c-6.3359-8.1094-15.48-13.551-25.629-15.254-10.152-1.707-20.574 0.44922-29.211 6.043-8.6406 5.5938-14.875 14.219-17.473 24.176l-44.938 172.16c-1.4961 4.1758-5.4453 6.9609-9.8789 6.9727h-160.04c-10.516-0.003907-20.336 5.2422-26.184 13.984-5.8438 8.7383-6.9375 19.82-2.918 29.535l29.367 70.992c1.7539 3.4492 4.4297 6.3438 7.7305 8.3633 3.3008 2.0195 7.0938 3.082 10.965 3.0742h188.52c4.6836 0.007813 9.2344-1.5586 12.93-4.4414 3.6914-2.8828 6.3125-6.918 7.4453-11.465l66.84-268.82c3.1016-12.305 0.32031-25.352-7.5234-35.324zm-12.852 30.238-66.84 268.82-188.17 0.76172-29.02-70.234c-1.332-3.2383-0.96484-6.9297 0.98438-9.8398 1.9492-2.9102 5.2227-4.6562 8.7266-4.6523h160.04c6.6406-0.050781 13.098-2.1797 18.465-6.0898 5.3672-3.9062 9.3789-9.3984 11.465-15.703l45.203-173.02c1.8047-6.9648 7.1797-12.441 14.105-14.379 6.9297-1.9414 14.363-0.046875 19.523 4.9648 5.1562 5.0156 7.2578 12.395 5.5156 19.375z"
+                                                            Width="14" Height="14"
+                                                            Foreground="{DynamicResource TextSecondary}"
+                                                            VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <Border Grid.Column="3" Margin="10,0,0,0" Padding="20,0,0,0"
+                                                        BorderBrush="{DynamicResource BgInput}"
+                                                        BorderThickness="1,0,0,0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                                                Spacing="8">
+                                                        <Button Classes="Outline"
+                                                                Click="EditAircraftButton_OnClick"
+                                                                Width="38" Height="38" Padding="0"
+                                                                ToolTip.Tip="Редактировать"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                        <Button Classes="Outline"
+                                                                Click="DeleteAircraftButton_OnClick"
+                                                                Width="38" Height="38" Padding="0"
+                                                                Foreground="#EF4444"
+                                                                ToolTip.Tip="Удалить"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Border>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Аэропорты" Margin="0 0 0 20">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalAirportsBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить аэропорт"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" 
+                                Click="AddAirportButton_OnClick"/>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="AirportsControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Airport">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50" Height="50"
+                                                        CornerRadius="10"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Code}"
+                                                               FontSize="16"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               TextAlignment="Center"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource PrimaryColor}" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                                        <PathIcon
+                                                            Data="M12,2C8.13,2 5,5.13 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.13 15.87,2 12,2M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5Z"
+                                                            Width="12" Height="12"
+                                                            Foreground="{DynamicResource TextSecondary}"
+                                                            VerticalAlignment="Center" />
+                                                        <TextBlock FontSize="13"
+                                                                   Foreground="{DynamicResource TextSecondary}">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0}, {1}">
+                                                                    <Binding Path="City.Name" />
+                                                                    <Binding Path="Country.Name" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,20,0">
+                                                    <TextBlock Text="ID ОБЪЕКТА"
+                                                               FontSize="10"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Text="{Binding Id, StringFormat='{}#{0}'}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource BrandDark}"
+                                                               HorizontalAlignment="Right" />
+                                                </StackPanel>
+
+                                                <Border Grid.Column="3" Margin="10,0,0,0" Padding="20,0,0,0"
+                                                        BorderBrush="{DynamicResource BgInput}"
+                                                        BorderThickness="1,0,0,0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                                                Spacing="8">
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                Tag="{Binding}"
+                                                                Click="EditAirportButton_OnClick">
+                                                            <PathIcon
+                                                                Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                Foreground="#EF4444"
+                                                                Tag="{Binding}"
+                                                                Click="DeleteAirportButton_OnClick">
+                                                            <PathIcon
+                                                                Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Border>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Страны">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalCountriesBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить страну"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="CountriesControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Country">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50" Height="50"
+                                                        CornerRadius="10"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <PathIcon
+                                                        Data="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18V19.93M17.9,17.39C17.64,16.58 17,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C18.55,5.78 21,9.11 21,13C21,14.63 20.45,16.14 19.5,17.34L17.9,17.39Z"
+                                                        Width="25" Height="25"
+                                                        Foreground="{DynamicResource PrimaryColor}" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,20,0">
+                                                    <TextBlock Text="ID СТРАНЫ"
+                                                               FontSize="10"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Text="{Binding Id, StringFormat='{}#{0}'}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource BrandDark}"
+                                                               HorizontalAlignment="Right" />
+                                                </StackPanel>
+
+                                                <Border Grid.Column="3" Margin="10,0,0,0" Padding="20,0,0,0"
+                                                        BorderBrush="{DynamicResource BgInput}"
+                                                        BorderThickness="1,0,0,0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                                                Spacing="8">
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                ToolTip.Tip="Редактировать название"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                Foreground="#EF4444"
+                                                                ToolTip.Tip="Удалить страну"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Border>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Города">
+                <Grid RowDefinitions="Auto, *">
+                    <Border Grid.Row="0" Margin="30 30 30 0" Background="{DynamicResource BgCard}" Padding="25"
+                            CornerRadius="12"
+                            BoxShadow="0 2 8 0 #08000000">
+                        <Grid ColumnDefinitions="*,*,*,*">
+                            <TextBlock Grid.Column="0" Name="TotalCitiesBlock" Classes="label" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Classes="Primary"
+                                Content="Добавить город"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="15 10" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                            Background="{DynamicResource BgInput}">
+                        <ScrollViewer>
+                            <ItemsControl Name="CitiesControl" Padding="10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:City">
+                                        <Border Background="{DynamicResource BgCard}"
+                                                CornerRadius="12"
+                                                Padding="20"
+                                                BoxShadow="0 2 5 0 #05000000">
+                                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                                <Border Grid.Column="0"
+                                                        Width="50" Height="50"
+                                                        CornerRadius="10"
+                                                        Background="{DynamicResource BgInput}"
+                                                        VerticalAlignment="Center">
+                                                    <PathIcon
+                                                        Data="M15,11V5L12,2L9,5V7H3V21H21V11H15M7,19H5V17H7V19M7,15H5V13H7V15M7,11H5V9H7V11M13,19H11V17H13V19M13,15H11V13H13V15M13,11H11V9H13V11M13,7H11V5H13V7M19,19H17V17H19V19M19,15H17V13H19V15"
+                                                        Width="25" Height="25"
+                                                        Foreground="{DynamicResource PrimaryColor}" />
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold" />
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                            Margin="0,0,20,0">
+                                                    <TextBlock Text="ID ГОРОДА"
+                                                               FontSize="10"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextSecondary}"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock Text="{Binding Id, StringFormat='{}#{0}'}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource BrandDark}"
+                                                               HorizontalAlignment="Right" />
+                                                </StackPanel>
+
+                                                <Border Grid.Column="3" Margin="10,0,0,0" Padding="20,0,0,0"
+                                                        BorderBrush="{DynamicResource BgInput}"
+                                                        BorderThickness="1,0,0,0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                                                Spacing="8">
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                ToolTip.Tip="Изменить название"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                        <Button Classes="Outline"
+                                                                Width="38" Height="38" Padding="0"
+                                                                Foreground="#EF4444"
+                                                                ToolTip.Tip="Удалить город"
+                                                                Tag="{Binding}">
+                                                            <PathIcon
+                                                                Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19V4M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
+                                                                Width="16" Height="16" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Border>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

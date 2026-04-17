@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="using:FlightsBookingLib.Models"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
+             x:DataType="models:User"
+             x:Class="FlightsBookingX.UserControls.MenuControls.AdminControls.UserInteractionsControl">
+
+    <Grid RowDefinitions="Auto, *, Auto" Margin="30">
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,0,0,25">
+            <Button Classes="Outline" Width="44" Height="44" Padding="0" ToolTip.Tip="Вернуться назад"
+                    Click="BackButton_OnClick">
+                <PathIcon Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                          Width="20" Height="20" Foreground="{DynamicResource TextPrimary}" />
+            </Button>
+            <TextBlock Text="Редактирование профиля" FontSize="28" FontWeight="Bold"
+                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <Border Background="{DynamicResource BgCard}"
+                    CornerRadius="12"
+                    Padding="40"
+                    BoxShadow="0 4 10 0 #10000000">
+                <StackPanel Spacing="25">
+
+                    <TextBlock Text="Личные данные" FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource BrandDark}" Margin="0,0,0,-10" />
+
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                          RowSpacing="8" ColumnSpacing="30">
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Фамилия" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding SecondName}" Watermark="Иванов" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Имя" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding FirstName}" Watermark="Иван" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Отчество" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding MiddleName}" Watermark="Иванович" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Дата рождения" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <CalendarDatePicker SelectedDate="{Binding DateTimeOfBirth}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Телефон" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding PhoneNumber}" Watermark="+_ (___) ___-__-__" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Паспортные данные" Foreground="{DynamicResource TextSecondary}"
+                                       FontSize="13" FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding PassportData}" Watermark="Серия и номер паспорта" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Электронная почта" Foreground="{DynamicResource TextSecondary}"
+                                       FontSize="13" FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding Email}" Watermark="example@mail.com" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="4" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Пароль" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding Password}" PasswordChar="•"
+                                     Watermark="********" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="5" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Роль пользователя" Foreground="{DynamicResource TextSecondary}"
+                                       FontSize="13" FontWeight="SemiBold" />
+                            <ComboBox x:Name="RolesComboBox"
+                                      Height="60"
+                                      HorizontalAlignment="Stretch"
+                                      SelectedItem="{Binding Role}"
+                                      PlaceholderText="Выберите роль">
+                                <ComboBox.Styles>
+                                    <Style Selector="ComboBox /template/ Border#Background">
+                                        <Setter Property="Height" Value="46"/>
+                                    </Style>
+                                    <Style Selector="ComboBox /template/ DataValidationErrors /template/ ContentPresenter#PART_ContentPresenter">
+                                        <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                                    </Style>
+                                </ComboBox.Styles>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:UserRole">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <Grid Grid.Row="3" Grid.Column="1" Grid.RowSpan="3" RowSpacing="8" RowDefinitions="Auto, *">
+                            <TextBlock Text="{Binding Tickets.Count, StringFormat='Билеты ({0}):'}"
+                                       Foreground="{DynamicResource TextSecondary}"
+                                       FontSize="13" FontWeight="SemiBold" />
+                            <Border Grid.Row="1" Height="230" CornerRadius="20" ClipToBounds="True"
+                                    Background="{DynamicResource BgInput}">
+                                <ScrollViewer>
+                                    <ItemsControl Name="TestBox" Padding="10" ItemsSource="{Binding Tickets}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Ticket">
+                                                <Border Classes="Item" Padding="10">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock Grid.Column="0" Text="{Binding}"
+                                                                   VerticalAlignment="Center" TextWrapping="Wrap" />
+
+                                                        <!--<Button Grid.Column="1"
+                                                                Classes="Outline"
+                                                                Click="RemoveTicketButton_OnClick"
+                                                                ToolTip.Tip="Удалить билет"
+                                                                Padding="0"
+                                                                VerticalAlignment="Stretch"
+                                                                Height="30"
+                                                                Width="{Binding $self.Bounds.Height}">
+                                                            <PathIcon Data="M19,13H5V11H19V13Z"
+                                                                      Width="14"
+                                                                      Height="14"
+                                                                      Foreground="#EF4444" />
+                                                        </Button>-->
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2">
+            <Separator Height="1" Background="{DynamicResource BgInput}" Margin="0,20" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15">
+                <Button Content="Отмена" Classes="Outline" Width="120" Height="45"
+                        HorizontalContentAlignment="Center" Click="BackButton_OnClick" />
+                <Button Name="SaveUserButton" Content="Сохранить изменения" Classes="Primary" Padding="15 0" Height="45"
+                        HorizontalContentAlignment="Center" Click="SaveButton_OnClick" />
+                <Button Name="AddUserButton" Content="Добавить пользователя" Classes="Primary" Height="45"
+                        HorizontalContentAlignment="Center" Padding="15 0" Click="AddButton_OnClick" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

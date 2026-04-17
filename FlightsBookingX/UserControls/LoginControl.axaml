@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FlightsBookingX.UserControls.LoginControl">
+    <Border Grid.Column="1" Background="White" Padding="60,40">
+        <StackPanel VerticalAlignment="Center" MaxWidth="500">
+            <TextBlock Text="Добро пожаловать" Classes="h1" />
+            <TextBlock Text="Пожалуйста, войдите в свой аккаунт" Classes="subtitle" />
+
+            <TextBlock Text="Email" Classes="label" />
+            <TextBox Watermark="name@example.com" Name="EmailBox" Classes="Default" />
+
+            <TextBlock Text="Пароль" Classes="label" />
+            <TextBox Watermark="Введите пароль" PasswordChar="•" Name="PasswordBox" Classes="Default" />
+
+            <!--<Grid ColumnDefinitions="*, Auto" Margin="0,0,0,30" ShowGridLines="False">
+                <CheckBox Content="Запомнить меня" FontSize="15" />
+                <Button Classes="Link" Grid.Column="1">
+                    <TextBlock Text="Забыли пароль?" FontSize="14" FontWeight="SemiBold" />
+                </Button>
+            </Grid>-->
+
+            <Button Classes="Primary" Content="Войти" Margin="0,0,0,30" Click="LoginButton_OnClick" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                <TextBlock Text="Нет аккаунта?" Foreground="{StaticResource TextSecondary}" FontSize="15"
+                           VerticalAlignment="Center" />
+                <Button Classes="Link" Content="Зарегистрироваться" FontSize="15" FontWeight="SemiBold"
+                        Click="RegisterButton_OnClick" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

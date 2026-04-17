@@ -1,0 +1,116 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:FlightsBookingLib.Models;assembly=FlightsBookingLib"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FlightsBookingX.UserControls.MenuControls.ShowUserTicketsControl">
+    <Grid RowDefinitions="Auto, *" Margin="25">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,0,0,20">
+            <Button Classes="Outline" Width="40" Height="40" Padding="0" Click="BackButton_OnClick">
+                <PathIcon Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Width="18"
+                          Height="18" />
+            </Button>
+            <TextBlock Text="Мои билеты" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="30" CornerRadius="20" ClipToBounds="True"
+                Background="{DynamicResource BgInput}">
+            <ScrollViewer>
+                <ItemsControl Name="TicketsControl" Padding="10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="10" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:Ticket">
+                            <Border Background="{DynamicResource BgCard}"
+                                    CornerRadius="12"
+                                    Padding="20 15"
+                                    BoxShadow="0 2 5 0 #05000000">
+                                <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center"
+                                                Margin="0,0,15,0" Orientation="Vertical" Spacing="5">
+                                        
+                                            <Border Grid.Column="0"
+                                                    Width="36" Height="36"
+                                                    CornerRadius="8"
+                                                    Background="{DynamicResource BgInput}">
+                                                <PathIcon
+                                                    Data="M21,10V14C20.45,14 20,14.45 20,15C20,15.55 20.45,16 21,16V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V16C3.55,16 4,15.55 4,15C4,14.45 3.55,14 3,14V10A2,2 0 0,1 5,8H19A2,2 0 0,1 21,10M13,10H11V12H13V10M13,14H11V16H13V14M17,10H15V12H17V10M17,14H15V16H17V14M9,10H7V12H9V10M9,14H7V16H9V14Z"
+                                                    Width="16" Height="16"
+                                                    Foreground="{DynamicResource PrimaryColor}" />
+                                            </Border>
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding Flight.FlightNumber}"
+                                                       VerticalAlignment="Center"
+                                                       FontWeight="Bold"
+                                                       FontSize="13"
+                                                       Foreground="{DynamicResource PrimaryColor}" />
+                                        
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="3">
+                                        <TextBlock FontWeight="Bold" FontSize="16">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                    <Binding Path="User.SecondName" />
+                                                    <Binding Path="User.FirstName" />
+                                                    <Binding Path="User.MiddleName" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding Flight.FromAirport.Code}"
+                                                       FontWeight="SemiBold" FontSize="13" />
+                                            <PathIcon
+                                                Data="M14,16.94V12.94H5.08L5.05,10.93H14V6.94L19,11.94L14,16.94Z"
+                                                Width="10" Height="10" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Flight.ToAirport.Code}"
+                                                       FontWeight="SemiBold" FontSize="13" />
+                                            <TextBlock Text="|" Foreground="{DynamicResource BgInput}"
+                                                       Margin="2,0" />
+                                            <TextBlock
+                                                Text="{Binding Flight.DepartureTime, StringFormat='{}{0:dd MMM, HH:mm}'}"
+                                                FontSize="12"
+                                                Foreground="{DynamicResource TextSecondary}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                                Margin="0,0,20,0">
+                                        <TextBlock Text="МЕСТО" FontSize="10"
+                                                   Foreground="{DynamicResource TextSecondary}"
+                                                   HorizontalAlignment="Right" />
+                                        <TextBlock Text="{Binding SeatNumber}" FontSize="20"
+                                                   FontWeight="Heavy" HorizontalAlignment="Right"
+                                                   Foreground="{DynamicResource BrandDark}" />
+                                        <TextBlock
+                                            Text="{Binding BookingDate, StringFormat='{}Бронь: {0:dd.MM.yy}'}"
+                                            FontSize="10"
+                                            Foreground="{DynamicResource TextSecondary}"
+                                            HorizontalAlignment="Right" />
+                                    </StackPanel>
+
+                                    <Button Grid.Column="3" 
+                                            Click="DeleteTicketButton_OnClick"
+                                            Classes="Outline"
+                                            Height="38"
+                                            Padding="10 0"
+                                            Foreground="#EF4444"
+                                            Tag="{Binding}">
+                                        <TextBlock Text="Отменить бронь" />
+                                    </Button>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

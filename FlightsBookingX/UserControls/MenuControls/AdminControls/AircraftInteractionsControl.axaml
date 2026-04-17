@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="using:FlightsBookingLib.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:DataType="models:Aircraft"
+             x:Class="FlightsBookingX.UserControls.MenuControls.AdminControls.AircraftInteractionsControl">
+
+    <Grid RowDefinitions="Auto, *, Auto" Margin="30">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,0,0,25">
+            <Button Classes="Outline" Width="44" Height="44" Padding="0" ToolTip.Tip="Вернуться назад"
+                    Click="BackButton_OnClick">
+                <PathIcon Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"
+                          Width="20" Height="20" Foreground="{DynamicResource TextPrimary}" />
+            </Button>
+            <TextBlock Text="Управление самолетом" FontSize="28" FontWeight="Bold"
+                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <Border Background="{DynamicResource BgCard}" CornerRadius="12" Padding="40" BoxShadow="0 4 10 0 #10000000">
+                <StackPanel Spacing="25">
+                    <TextBlock Text="Технические характеристики" FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource BrandDark}" Margin="0,0,0,-10" />
+
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" RowSpacing="20" ColumnSpacing="30">
+                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Производитель" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding Manufacturer}" Watermark="Например: Airbus" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="8">
+                            <TextBlock Text="Модель" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding Model}" Watermark="Например: A320neo" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <TextBlock Text="Количество мест" Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                                       FontWeight="SemiBold" />
+                            <TextBox Classes="Default" Text="{Binding SeatsCount}"  />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2">
+            <Separator Height="1" Background="{DynamicResource BgInput}" Margin="0,20" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="15">
+                <Button Content="Отмена" Classes="Outline" Width="120" Height="45"
+                        HorizontalContentAlignment="Center" Click="BackButton_OnClick" />
+                <Button Name="SaveAircraftButton" Content="Сохранить изменения" Classes="Primary" Padding="15 0" Height="45"
+                        HorizontalContentAlignment="Center" Click="SaveButton_OnClick" />
+                <Button Name="AddAircraftButton" Content="Добавить самолет" Classes="Primary" Height="45"
+                        HorizontalContentAlignment="Center" Padding="15 0" Click="AddButton_OnClick" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

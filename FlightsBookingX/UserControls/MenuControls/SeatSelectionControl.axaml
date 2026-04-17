@@ -1,0 +1,193 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="FlightsBookingX.UserControls.MenuControls.SeatSelectionControl"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:menuControls="clr-namespace:FlightsBookingX.UserControls.MenuControls"
+             mc:Ignorable="d"
+             x:CompileBindings="False"
+             d:DesignWidth="1600" d:DesignHeight="900"
+             x:DataType="menuControls:SeatSelectionControl">
+    <Grid RowDefinitions="Auto, *, Auto" Margin="25">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,0,0,20">
+            <Button Classes="Outline" Width="40" Height="40" Padding="0" Click="BackButton_OnClick">
+                <PathIcon Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Width="18"
+                          Height="18" />
+                </Button>
+            <TextBlock Text="Выбор места" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="320, *" Margin="0,0,0,10">
+            <StackPanel Grid.Column="0" Spacing="15">
+                <Border Background="{DynamicResource BgCard}"
+                        CornerRadius="12"
+                        Padding="20"
+                        BoxShadow="0 4 12 0 #10000000">
+                    <StackPanel Spacing="15">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="МАРШРУТ" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMuted}" LetterSpacing="1" />
+                            <TextBlock Name="FlightRouteBlock" FontSize="18" FontWeight="Bold"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Name="FlightNumberBlock" FontSize="13"
+                                       Foreground="{DynamicResource PrimaryColor}" FontWeight="Medium"
+                                       Text="{Binding CurrentFlight.FlightNumber, StringFormat='Рейс: {0}'}" />
+                        </StackPanel>
+
+                        <Separator Height="1" Background="{DynamicResource BgInput}" />
+
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="САМОЛЕТ" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMuted}" LetterSpacing="1" />
+                            <TextBlock Name="AircraftModelBlock" FontSize="15" Text="{Binding CurrentFlight.Aircraft}" />
+                        </StackPanel>
+
+                        <Separator Height="1" Background="{DynamicResource BgInput}" />
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="ДОСТУПНОСТЬ" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMuted}" LetterSpacing="1" />
+                            <DockPanel>
+                                <TextBlock Name="SeatsInfoBlock" FontSize="16" FontWeight="Bold" DockPanel.Dock="Left" />
+                                <TextBlock Text="мест" FontSize="14" Margin="5,0,0,0"
+                                           VerticalAlignment="Bottom" Foreground="{DynamicResource TextSecondary}" />
+                            </DockPanel>
+                            <ProgressBar Name="SeatsProgressBar" Height="8"
+                                         Minimum="0" Maximum="100" Value="25"
+                                         Background="{DynamicResource BgInput}"
+                                         Foreground="{DynamicResource PrimaryColor}"
+                                         CornerRadius="4" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="#FFF9C4" CornerRadius="8" Padding="12">
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                        <PathIcon
+                            Data="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M11,17H13V11H11V17Z"
+                            Width="16" Foreground="#FBC02D" />
+                        <TextBlock Grid.Column="1" Text="Нажмите на место, чтобы выбрать его для бронирования"
+                                   FontSize="11" TextWrapping="Wrap" Foreground="#7F6D00" VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Button Classes="Primary" Content="Забронировать" VerticalAlignment="Bottom"
+                        Click="BookTicketButton_OnClick" />
+            </StackPanel>
+
+            <Grid Grid.Column="1" RowDefinitions="*, Auto" RowSpacing="10" Margin="20,0,0,0">
+                <TabControl Grid.Row="0" Name="DeckTabs" Background="Transparent" BorderThickness="0">
+                    <TabControl.Styles>
+                        <Style Selector="TabItem">
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="MinHeight" Value="34" />
+                        </Style>
+                    </TabControl.Styles>
+
+                    <TabItem Header="Нижняя палуба" Name="LowerDeckTab">
+                        <Grid RowDefinitions="*">
+                            <ScrollViewer Grid.Row="0" Margin="0,15,0,0" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl Name="LowerSeatsGrid">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="{Binding CurrentPlaneColumns}"
+                                                         HorizontalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="menuControls:SeatViewModel">
+                                            <Panel>
+                                                <ToggleButton Margin="2" Width="32" Height="32" Classes="SeatButton"
+                                                              IsChecked="{Binding IsSelected}"
+                                                              IsEnabled="{Binding !IsOccupied}"
+                                                              IsVisible="{Binding !IsSpacer}"
+                                                              >
+                                                    <TextBlock Text="{Binding Number}" FontSize="10"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center" />
+                                                </ToggleButton>
+                                                <Rectangle Width="32" Height="32" IsVisible="{Binding IsSpacer}" />
+                                            </Panel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Верхняя палуба" Name="UpperDeckTab">
+                        <ScrollViewer Margin="0,15,0,0">
+                            <ItemsControl Name="UpperSeatsGrid">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding CurrentPlaneColumns}"
+                                                     HorizontalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="menuControls:SeatViewModel">
+                                        <Panel>
+                                            <ToggleButton Margin="2" Width="32" Height="32" Classes="SeatButton"
+                                                          IsChecked="{Binding IsSelected}"
+                                                          IsEnabled="{Binding !IsOccupied}"
+                                                          IsVisible="{Binding !IsSpacer}"
+                                                          >
+                                                <TextBlock Text="{Binding Number}" FontSize="10"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center" />
+                                            </ToggleButton>
+                                            <Rectangle Width="32" Height="32" IsVisible="{Binding IsSpacer}" />
+                                        </Panel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25"
+                            Margin="0,15,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Width="14" Height="14" Background="#2ECC71" CornerRadius="3" />
+                        <TextBlock Text="Свободно" FontSize="11" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Width="14" Height="14" Background="{DynamicResource PrimaryColor}" CornerRadius="3" />
+                        <TextBlock Text="Выбрано" FontSize="11" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Width="14" Height="14" Background="#E5E7EB" Opacity="0.6" CornerRadius="3" />
+                        <TextBlock Text="Занято" FontSize="11" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+
+    <UserControl.Styles>
+        <Style Selector="ToggleButton.SeatButton">
+            <Setter Property="Background" Value="#2ECC71" /> 
+            <Setter Property="BorderBrush" Value="#27AE60" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+
+        <Style Selector="ToggleButton.SeatButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#27AE60" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="ToggleButton.SeatButton:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="ToggleButton.SeatButton:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#E5E7EB" />
+            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Foreground" Value="#9CA3AF" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>
