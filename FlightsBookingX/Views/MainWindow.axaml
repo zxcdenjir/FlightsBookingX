@@ -10,6 +10,8 @@
         x:Class="FlightsBookingX.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="FlightsBookingX"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         x:DataType="views:MainWindow">
         <views:MainView/>
 </Window>
